@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  # Backend service
+  backend:
+    image: node:14
+    container_name: backend
+    working_dir: /api
+    command: npm start
+    volumes:
+      - ./api:/api
+    ports:
+      - "3001:3001" # ajuste as portas conforme necessário
+    environment:
+      - NODE_ENV=development
+      - PGHOST=db
+      - PGUSER=postgres
+      - PGDATABASE=facilita
+      - PGPASSWORD=postgres
+      - PGPORT=5432
+
+  # Frontend service
+  frontend:
+    image: node:14
+    container_name: frontend
+    working_dir: /web
+    command: npm start
+    volumes:
+      - ./web:/web
+    ports:
+      - "3000:3000" # ajuste as portas conforme necessário
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:3001
+
+  # PostgreSQL service
+  db:
+    #image: postgres:13
+    image: arm64v8/postgres
+    container_name: pgsql
+    ports:
+        - "5432:5432" # ajuste as portas conforme necessário
+    environment:
+      POSTGRES_DB: facilita
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
+
