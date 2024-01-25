@@ -34,8 +34,8 @@ services:
 
   # PostgreSQL service
   db:
-    #image: postgres:13
-    image: arm64v8/postgres
+    image: postgres:13
+#    image: arm64v8/postgres
     container_name: pgsql
     ports:
         - "5432:5432" # ajuste as portas conforme necessário
